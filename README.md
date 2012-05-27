@@ -1,4 +1,4 @@
-facebook_comments
+Facebook Comments with Notifications
 =================
 
 Facebook comments with custom notifications.
