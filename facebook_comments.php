@@ -341,7 +341,20 @@ function fb_comments_print_meta_box( $post ) {
 		<tbody>
 		<tr>
 			<td>
-				<label for="myplugin_new_field"><? _e("FB Like URL", 'fb_comments' ); ?>:</label>
+				<label for="fb_comments_switch"><? _e("Show FB Comments", 'fb_comments' ); ?>:</label>
+			</td>
+			<td>
+				<? $fb_comments_switch = get_post_meta($post->ID, "fb_comments_switch", true); ?>
+				<select name="fb_comments_switch" id="fb_comments_switch">
+				    <option value="" <?php selected( $fb_comments_switch, '' ); ?>><?php _e( 'Default', 'fb_comments' )?></option>
+				    <option value="show" <?php selected( $fb_comments_switch, 'show' ); ?>><?php _e( 'Show', 'fb_comments' )?></option>
+				    <option value="hide" <?php selected( $fb_comments_switch, 'hide' ); ?>><?php _e( 'Hide', 'fb_comments' )?></option>
+				</select><br>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<label for="fb_comments_like_url"><? _e("FB Like URL", 'fb_comments' ); ?>:</label>
 			</td>
 			<td>
 				<input type="text" id="fb_comments_like_url" name="fb_comments_like_url" value="<? echo get_post_meta($post->ID, "fb_comments_like_url", true) ?>" size="75" /><br>
@@ -349,7 +362,7 @@ function fb_comments_print_meta_box( $post ) {
 		</tr>
 		<tr>
 			<td>
-				<label for="myplugin_new_field"><? _e("FB Comments URL", 'fb_comments' ); ?>:</label>
+				<label for="fb_comments_comments_url"><? _e("FB Comments URL", 'fb_comments' ); ?>:</label>
 			</td>
 			<td>
 				<input type="text" id="fb_comments_comments_url" name="fb_comments_comments_url" value="<? echo get_post_meta($post->ID, "fb_comments_comments_url", true) ?>" size="75" /><br>
@@ -357,7 +370,7 @@ function fb_comments_print_meta_box( $post ) {
 		</tr>
 		<tr>
 			<td>
-				<label for="myplugin_new_field"><? _e("FB Notification Email", 'fb_comments' ); ?>:</label>
+				<label for="fb_comments_notification_email"><? _e("FB Notification Email", 'fb_comments' ); ?>:</label>
 			</td>
 			<td>
 				<input type="text" id="fb_comments_notification_email" name="fb_comments_notification_email" value="<? echo get_post_meta($post->ID, "fb_comments_notification_email", true) ?>" size="75" /><br>
@@ -504,6 +517,7 @@ function fb_comments_save_postdata( $post_id ) {
 
   // OK, we're authenticated: we need to find and save the data
 
+  update_post_meta($post_id, "fb_comments_switch" , trim($_REQUEST["fb_comments_switch"]));
   update_post_meta($post_id, "fb_comments_like_url" , trim($_REQUEST["fb_comments_like_url"]));
   update_post_meta($post_id, "fb_comments_comments_url" , trim($_REQUEST["fb_comments_comments_url"]));
   update_post_meta($post_id, "fb_comments_notification_email" , trim($_REQUEST["fb_comments_notification_email"]));

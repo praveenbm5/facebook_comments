@@ -131,9 +131,16 @@ if(strlen($fb_comments_url) == 0)
 
 
 if  (
-        $fb_comments_settings["show_fb_comments"] == "both" ||
-        (is_page() && $fb_comments_settings["show_fb_comments"] == "pages") ||
-        (is_single() && $fb_comments_settings["show_fb_comments"] == "posts")
+        (
+            get_post_meta($post->ID, "fb_comments_switch", true) != 'hide'
+        )
+        and
+        (
+            get_post_meta($post->ID, "fb_comments_switch", true) == 'show' ||
+            $fb_comments_settings["show_fb_comments"] == "both" ||
+            (is_page() && $fb_comments_settings["show_fb_comments"] == "pages") ||
+            (is_single() && $fb_comments_settings["show_fb_comments"] == "posts")
+        )
     ):
 ?>
 <div id="respond">
@@ -147,9 +154,12 @@ if  (
 <!--Crawlable Facebook Comments plugin tag-->
 <? if(function_exists('load_comments')):
 load_comments();
-endif; ?>
+?>
 </div>
+<? endif; ?>
+
 <? if($fb_comments_settings["include_sdk"] == "true"): ?>
+<div id="fb-root"></div>
 <script>
 window.fbInitQueue = new Array();
 window.fbAsyncInit = function() {
