@@ -312,7 +312,7 @@ function fb_comments_settings_validate($input)
 add_action( 'add_meta_boxes', 'fb_comments_add_meta_box' );
 
 function fb_comments_add_meta_box(){
-	add_meta_box( 
+    add_meta_box( 
         'fb_comments',
         __( 'Facebook Comments Settings', 'fb_comments' ),
         'fb_comments_print_meta_box',
@@ -339,6 +339,19 @@ function fb_comments_print_meta_box( $post ) {
 	<table cellpadding="10">
 		<caption></caption>
 		<tbody>
+		<tr>
+			<td>
+				<label for="fb_like_switch"><? _e("Show FB Like", 'fb_comments' ); ?>:</label>
+			</td>
+			<td>
+				<? $fb_like_switch = get_post_meta($post->ID, "fb_like_switch", true); ?>
+				<select name="fb_like_switch" id="fb_like_switch">
+				    <option value="" <?php selected( $fb_like_switch, '' ); ?>><?php _e( 'Default', 'fb_comments' )?></option>
+				    <option value="show" <?php selected( $fb_like_switch, 'show' ); ?>><?php _e( 'Show', 'fb_comments' )?></option>
+				    <option value="hide" <?php selected( $fb_like_switch, 'hide' ); ?>><?php _e( 'Hide', 'fb_comments' )?></option>
+				</select><br>
+			</td>
+		</tr>
 		<tr>
 			<td>
 				<label for="fb_comments_switch"><? _e("Show FB Comments", 'fb_comments' ); ?>:</label>
@@ -517,6 +530,7 @@ function fb_comments_save_postdata( $post_id ) {
 
   // OK, we're authenticated: we need to find and save the data
 
+  update_post_meta($post_id, "fb_like_switch" , trim($_REQUEST["fb_like_switch"]));
   update_post_meta($post_id, "fb_comments_switch" , trim($_REQUEST["fb_comments_switch"]));
   update_post_meta($post_id, "fb_comments_like_url" , trim($_REQUEST["fb_comments_like_url"]));
   update_post_meta($post_id, "fb_comments_comments_url" , trim($_REQUEST["fb_comments_comments_url"]));

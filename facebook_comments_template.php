@@ -62,9 +62,16 @@ if(strlen($fb_like_url) == 0)
 
 <?
 if  (
-        $fb_comments_settings["show_fb_like"] == "both" ||
-        (is_page() && $fb_comments_settings["show_fb_like"] == "pages") ||
-        (is_single() && $fb_comments_settings["show_fb_like"] == "posts")
+        (
+            get_post_meta($post->ID, "fb_like_switch", true) != 'hide'
+        )
+        and
+        (
+            get_post_meta($post->ID, "fb_like_switch", true) == 'show' ||
+            $fb_comments_settings["show_fb_like"] == "both" ||
+            (is_page() && $fb_comments_settings["show_fb_like"] == "pages") ||
+            (is_single() && $fb_comments_settings["show_fb_like"] == "posts")
+        )
     ):
 ?>
 <fb:like
